@@ -60,6 +60,19 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
     @Override
     public void removeItem(Order order, Product product) {
+        if (order.getStatus() != OrderStatus.OPEN) {
+            throw new RuntimeException("Pedido não pode ser alterado.");
+        }
+
+        OrderItem ItemToRemove = null;
+        for (OrderItem item : order.getItems()) {
+            if (item.getProduct().equals(product)) {
+                ItemToRemove = item;
+                break;
+            }
+        }
+
+        order.getItems().remove(ItemToRemove);
 
         repository.save(order);
 
