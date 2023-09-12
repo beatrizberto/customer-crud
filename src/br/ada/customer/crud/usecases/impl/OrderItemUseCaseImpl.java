@@ -8,10 +8,7 @@ import br.ada.customer.crud.usecases.IOrderItemUseCase;
 import br.ada.customer.crud.usecases.repository.OrderRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-
-import static br.ada.customer.crud.model.OrderStatus.OPEN;
 
 public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
@@ -40,10 +37,26 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
     @Override
     public OrderItem changeAmount(Order order, Product product, Integer amount) {
+        if (order.getStatus() != OrderStatus.OPEN) {
+            throw new RuntimeException("Pedido não pode ser alterado.");
+        }
+
+        OrderItem ItemToChangeAmount = null;
+        for (OrderItem item : order.getItems()) {
+            if (item.getProduct().equals(product)) {
+                ItemToChangeAmount = item;
+                break;
+            }
+        }
+
+        ItemToChangeAmount.setAmount(amount);
 
         repository.save(order);
-        return null;
+
+        return ItemToChangeAmount;
     }
+
+
 
     @Override
     public void removeItem(Order order, Product product) {
@@ -52,3 +65,4 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
     }
 }
+
