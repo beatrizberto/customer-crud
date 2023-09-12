@@ -28,7 +28,7 @@ public class CreateOrderUseCaseImpl implements ICreateOrderUseCase {
         order.setCustomer(customer);
         order.setItems(new ArrayList<>());
         order.setStatus(OrderStatus.OPEN);
-        order.setShippingAddress("Minha casa sempre");
+        order.setShippingAddress("Endereço do cliente.");
         order.setOrderedAt(LocalDateTime.now());
         repository.save(order);
         return order;
