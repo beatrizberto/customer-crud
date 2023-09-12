@@ -57,7 +57,6 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
     }
 
 
-
     @Override
     public void removeItem(Order order, Product product) {
         if (order.getStatus() != OrderStatus.OPEN) {
