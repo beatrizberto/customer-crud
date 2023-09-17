@@ -13,11 +13,11 @@ import java.util.ArrayList;
 
 public class CreateOrderUseCaseImpl implements ICreateOrderUseCase {
 
-    private OrderRepository repository;
+    private OrderRepository orderRepository;
     private CustomerRepository customerRepository;
 
-    public CreateOrderUseCaseImpl(OrderRepository repository, CustomerRepository customerRepository) {
-        this.repository = repository;
+    public CreateOrderUseCaseImpl(OrderRepository orderRepository, CustomerRepository customerRepository) {
+        this.orderRepository = orderRepository;
         this.customerRepository = customerRepository;
     }
 
@@ -26,11 +26,11 @@ public class CreateOrderUseCaseImpl implements ICreateOrderUseCase {
         validCustomer(customer);
         Order order = new Order();
         order.setCustomer(customer);
-        order.setItems(new ArrayList<>());//o carrinho foi criado!
+        order.setItems(new ArrayList<>());
         order.setStatus(OrderStatus.OPEN);
         order.setShippingAddress("Endereço do cliente.");
         order.setOrderedAt(LocalDateTime.now());
-        repository.save(order);
+        orderRepository.save(order);
         return order;
     }
 

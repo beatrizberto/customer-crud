@@ -12,16 +12,15 @@ import java.math.BigDecimal;
 
 public class OrderPlaceUseCaseImpl implements IOrderPlaceUseCase {
 
-    private OrderRepository repository;
-    private IPlaceNotifierUseCase notifierUseCase;
+    private OrderRepository orderRepository;
+    private INotifierOrderUseCase notifierUseCase;
 
-    public OrderPlaceUseCaseImpl(OrderRepository repository, IPlaceNotifierUseCase notifierUseCase) {
-        this.repository = repository;
+    public OrderPlaceUseCaseImpl(OrderRepository orderRepository, INotifierOrderUseCase notifierUseCase) {
+        this.orderRepository = orderRepository;
         this.notifierUseCase = notifierUseCase;
     }
 
-    public OrderPlaceUseCaseImpl(OrderRepository repository, INotifierOrderUseCase notifierOrderSendEmail) {
-    }
+
 
     @Override
     public void placeOrder(Order order) {
@@ -44,9 +43,10 @@ public class OrderPlaceUseCaseImpl implements IOrderPlaceUseCase {
             throw new RuntimeException("Soma dos produtos igual ou menor que 0");
         }
 
-        //NOTIFICAR
 
         order.setStatus(OrderStatus.PENDING_PAYMENT);
+        orderRepository.update(order);
+        notifierUseCase.pendingPayment(order);
 
 
 

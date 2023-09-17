@@ -12,10 +12,10 @@ import java.util.List;
 
 public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
-    private OrderRepository repository;
+    private OrderRepository orderRepository;
 
-    public OrderItemUseCaseImpl(OrderRepository repository) {
-        this.repository = repository;
+    public OrderItemUseCaseImpl(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     @Override
@@ -23,15 +23,18 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
         if (order.getStatus() != OrderStatus.OPEN) {
             throw new RuntimeException("Pedido não pode ser alterado.");
         }
+
         OrderItem addedItem = new OrderItem();
-        List<OrderItem> orderItemList = order.getItems();
         addedItem.setProduct(product);
         addedItem.setSaleValue(price);
         addedItem.setAmount(amount);
+
+        List<OrderItem> orderItemList = order.getItems();
         orderItemList.add(addedItem);
         order.setItems(orderItemList);
 
-        repository.update(order);
+        orderRepository.update(order);
+
         return addedItem;
     }
 
@@ -51,7 +54,7 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
         ItemToChangeAmount.setAmount(amount);
 
-        repository.update(order);
+        orderRepository.update(order);
 
         return ItemToChangeAmount;
     }
@@ -73,7 +76,7 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
         order.getItems().remove(ItemToRemove);
 
-        repository.update(order);
+        orderRepository.update(order);
 
     }
 }
