@@ -2,6 +2,7 @@ package br.ada.customer.crud.usecases.impl;
 
 import br.ada.customer.crud.model.Order;
 import br.ada.customer.crud.model.OrderStatus;
+import br.ada.customer.crud.usecases.INotifierOrderUseCase;
 import br.ada.customer.crud.usecases.IOrderPayUseCase;
 
 import br.ada.customer.crud.usecases.IPayNotifierUseCase;
@@ -9,13 +10,14 @@ import br.ada.customer.crud.usecases.repository.OrderRepository;
 
 public class OrderPayUseCaseImpl implements IOrderPayUseCase {
 
-    private OrderRepository repository;
-    private IPayNotifierUseCase notifierUseCase;
+    private OrderRepository orderRepository;
+    private INotifierOrderUseCase notifierUseCase;
 
 
-    public OrderPayUseCaseImpl(OrderRepository repository, IPayNotifierUseCase notifierUseCase) {
-        this.repository = repository;
+    public OrderPayUseCaseImpl(OrderRepository orderRepository, INotifierOrderUseCase notifierUseCase) {
+        this.orderRepository = orderRepository;
         this.notifierUseCase = notifierUseCase;
+
     }
 
     @Override
@@ -25,8 +27,8 @@ public class OrderPayUseCaseImpl implements IOrderPayUseCase {
         }
 
         order.setStatus(OrderStatus.PAID);
-        repository.save(order);
-        notifierUseCase.notify(order);
+        orderRepository.update(order);
+        notifierUseCase.payOrder(order);
 
     }
 }

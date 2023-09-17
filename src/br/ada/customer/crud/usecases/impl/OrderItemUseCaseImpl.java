@@ -31,7 +31,7 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
         orderItemList.add(addedItem);
         order.setItems(orderItemList);
 
-        repository.save(order);
+        repository.update(order);
         return addedItem;
     }
 
@@ -51,7 +51,7 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
         ItemToChangeAmount.setAmount(amount);
 
-        repository.save(order);
+        repository.update(order);
 
         return ItemToChangeAmount;
     }
@@ -73,7 +73,7 @@ public class OrderItemUseCaseImpl implements IOrderItemUseCase {
 
         order.getItems().remove(ItemToRemove);
 
-        repository.save(order);
+        repository.update(order);
 
     }
 }
